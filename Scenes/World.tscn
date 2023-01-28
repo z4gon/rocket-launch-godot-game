@@ -38,6 +38,11 @@ tracks/0/keys = {
 [node name="World" type="Node"]
 script = ExtResource( 4 )
 
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
 [node name="RocketShip" type="Sprite" parent="."]
 position = Vector2( 640, 620 )
 scale = Vector2( 2, 2 )
