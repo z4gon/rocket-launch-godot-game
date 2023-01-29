@@ -1,7 +1,34 @@
-[gd_resource type="VisualShader" load_steps=2 format=2]
+[gd_resource type="VisualShader" load_steps=11 format=2]
 
-[sub_resource type="VisualShaderNodeColorConstant" id=1]
-constant = Color( 0.734375, 0.00286865, 0.00286865, 1 )
+[sub_resource type="VisualShaderNodeInput" id=1]
+input_name = "screen_uv"
+
+[sub_resource type="VisualShaderNodeVectorCompose" id=2]
+
+[sub_resource type="VisualShaderNodeVectorOp" id=3]
+
+[sub_resource type="VisualShaderNodeScalarFunc" id=4]
+function = 0
+
+[sub_resource type="VisualShaderNodeScalarOp" id=5]
+default_input_values = [ 0, 0.0, 1, 1.0 ]
+
+[sub_resource type="VisualShaderNodeScalarOp" id=6]
+default_input_values = [ 0, 0.0, 1, 0.03 ]
+operator = 2
+
+[sub_resource type="VisualShaderNodeScalarOp" id=7]
+default_input_values = [ 0, 0.0, 1, 20.0 ]
+operator = 2
+
+[sub_resource type="VisualShaderNodeInput" id=8]
+input_name = "time"
+
+[sub_resource type="VisualShaderNodeInput" id=9]
+input_name = "screen_texture"
+
+[sub_resource type="VisualShaderNodeTexture" id=10]
+source = 5
 
 [resource]
 code = "shader_type spatial;
@@ -16,12 +43,47 @@ void vertex() {
 }
 
 void fragment() {
-// Color:2
-	vec3 n_out2p0 = vec3(0.734375, 0.002869, 0.002869);
-	float n_out2p1 = 1.000000;
+// Input:10
+	vec3 n_out10p0 = vec3(SCREEN_UV, 0.0);
+
+// Input:3
+	float n_out3p0 = TIME;
+
+// ScalarOp:17
+	float n_in17p1 = 20.00000;
+	float n_out17p0 = n_out3p0 * n_in17p1;
+
+// ScalarFunc:14
+	float n_out14p0 = sin(n_out17p0);
+
+// ScalarOp:15
+	float n_in15p1 = 1.00000;
+	float n_out15p0 = n_out14p0 + n_in15p1;
+
+// ScalarOp:16
+	float n_in16p1 = 0.03000;
+	float n_out16p0 = n_out15p0 * n_in16p1;
+
+// VectorCompose:12
+	float n_in12p2 = 0.00000;
+	vec3 n_out12p0 = vec3(n_out16p0, n_out16p0, n_in12p2);
+
+// VectorOp:13
+	vec3 n_out13p0 = n_out10p0 + n_out12p0;
+
+// Input:8
+
+// Texture:9
+	vec3 n_out9p0;
+	float n_out9p1;
+	{
+		vec4 SCREEN_TEXTURE_tex_read = texture(SCREEN_TEXTURE, n_out13p0.xy);
+		n_out9p0 = SCREEN_TEXTURE_tex_read.rgb;
+		n_out9p1 = SCREEN_TEXTURE_tex_read.a;
+	}
 
 // Output:0
-	ALBEDO = n_out2p0;
+	ALBEDO = n_out9p0;
 
 }
 
@@ -30,8 +92,26 @@ void light() {
 
 }
 "
-graph_offset = Vector2( -142, 70 )
+graph_offset = Vector2( -735.358, 84.7025 )
 nodes/fragment/0/position = Vector2( 440, 160 )
-nodes/fragment/2/node = SubResource( 1 )
-nodes/fragment/2/position = Vector2( 140, 140 )
-nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0 )
+nodes/fragment/3/node = SubResource( 8 )
+nodes/fragment/3/position = Vector2( -1113, 273 )
+nodes/fragment/8/node = SubResource( 9 )
+nodes/fragment/8/position = Vector2( -189, 525 )
+nodes/fragment/9/node = SubResource( 10 )
+nodes/fragment/9/position = Vector2( 147, 399 )
+nodes/fragment/10/node = SubResource( 1 )
+nodes/fragment/10/position = Vector2( -504, 252 )
+nodes/fragment/12/node = SubResource( 2 )
+nodes/fragment/12/position = Vector2( -462, 420 )
+nodes/fragment/13/node = SubResource( 3 )
+nodes/fragment/13/position = Vector2( -210, 336 )
+nodes/fragment/14/node = SubResource( 4 )
+nodes/fragment/14/position = Vector2( -819, 294 )
+nodes/fragment/15/node = SubResource( 5 )
+nodes/fragment/15/position = Vector2( -735, 378 )
+nodes/fragment/16/node = SubResource( 6 )
+nodes/fragment/16/position = Vector2( -672, 504 )
+nodes/fragment/17/node = SubResource( 7 )
+nodes/fragment/17/position = Vector2( -1029, 357 )
+nodes/fragment/connections = PoolIntArray( 8, 0, 9, 2, 9, 0, 0, 0, 10, 0, 13, 0, 12, 0, 13, 1, 13, 0, 9, 0, 14, 0, 15, 0, 15, 0, 16, 0, 16, 0, 12, 0, 16, 0, 12, 1, 3, 0, 17, 0, 17, 0, 14, 0 )
