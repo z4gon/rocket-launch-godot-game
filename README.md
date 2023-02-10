@@ -3,6 +3,16 @@ Godot 3.5.x
 
 A basic game made in Godot, following the course: https://heartbeast-gamedev-school.teachable.com/p/1-bit-godot-course
 
+## Table of Contents
+- [Rocket Launch Game](#rocket-launch-game)
+  - [Table of Contents](#table-of-contents)
+  - [Screenshots](#screenshots)
+  - [Importing](#importing)
+  - [Nodes Used](#nodes-used)
+  - [Scripting](#scripting)
+  - [Animation](#animation)
+  - [Signals](#signals)
+
 ## Screenshots
 
 ![Picture](./docs/screencapture.jpg)
